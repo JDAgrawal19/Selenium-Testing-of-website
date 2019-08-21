@@ -73,6 +73,15 @@ class TestTimeSheet(unittest.TestCase):
         timesheet.add_entry_to_timesheet_table(text, entry_type, hours, minutes, desc)
         assert timesheet.get_serial_no_of_first_entry() == '1.'
 
+    @pytest.mark.usefixtures("setup")
+    @data(*get_csv_data(constants.path_test_added_entry_in_timesheet_csv))
+    @unpack
+    def test_working_hours_on_adding_new_entry_added(self, text, entry_type, hours, minutes, desc):
+        timesheet = Timesheet(driver)
+        timesheet.delete_all_entries_from_timesheet()
+        timesheet.add_entry_to_timesheet_table(text, entry_type, hours, minutes, desc)
+        working_hours = timesheet.get_total_working_hours()
+        assert hours in working_hours
 
 
 

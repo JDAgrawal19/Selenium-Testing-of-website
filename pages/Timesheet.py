@@ -34,6 +34,9 @@ class Timesheet(object):
     def get_date_showing_on_timesheet(self):
         return self.driver.find_element_by_css_selector(self.locator_timesheet_date).text[17:]
 
+    def get_total_working_hours(self):
+        return self.driver.find_element_by_css_selector(self.locator_timesheet_date).text[:5]
+
     def check_if_next_button_is_enabled(self):
         return self.driver.find_element_by_xpath(self.locator_next_button_timesheet).is_enabled()
 
@@ -77,6 +80,7 @@ class Timesheet(object):
         self.fill_minute_in_an_entry(minutes)
         self.fill_description_in_an_entry(desc)
         self.click_add_button_in_entry()
+        time.sleep(5)
 
     def delete_all_entries_from_timesheet(self):
         while True:
