@@ -73,6 +73,9 @@ class Timesheet(object):
         )
         self.driver.find_element_by_xpath(self.locator_add_entry_button).click()
 
+    def check_if_add_is_clickable(self):
+        return self.driver.find_element_by_xpath(self.locator_add_entry_button).is_enabled()
+
     def add_entry_to_timesheet_table(self, text='ARU-CCUI-DEL', entry_type="Debug", hours='4', minutes='20', desc='Add entry'):
         self.fill_project_code_in_an_entry(text)
         self.fill_type_in_an_entry(entry_type)

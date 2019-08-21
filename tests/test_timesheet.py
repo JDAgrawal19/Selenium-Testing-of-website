@@ -83,6 +83,23 @@ class TestTimeSheet(unittest.TestCase):
         working_hours = timesheet.get_total_working_hours()
         assert hours in working_hours
 
+    @pytest.mark.usefixtures("setup")
+    @data(*get_csv_data(constants.path_test_added_entry_in_timesheet_csv))
+    @unpack
+    def test_add_button_disability_without_mandatory_fields(self, text, entry_type, hours, minutes, desc):
+        timesheet = Timesheet(driver)
+        assert timesheet.check_if_add_is_clickable() is False
+        timesheet.fill_project_code_in_an_entry(text)
+        assert timesheet.check_if_add_is_clickable() is False
+        timesheet.fill_type_in_an_entry(entry_type)
+        assert timesheet.check_if_add_is_clickable() is False
+        timesheet.fill_hours_in_an_entry(hours)
+        assert timesheet.check_if_add_is_clickable() is False
+        timesheet.fill_description_in_an_entry(desc)
+        assert timesheet.check_if_add_is_clickable() is True
+
+
+
 
 
 
