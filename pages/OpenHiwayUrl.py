@@ -1,5 +1,7 @@
 from selenium import webdriver
 import pytest
+import constants
+
 
 class OpenHiwayUrl(object):
     def __init__(self, driver):
@@ -8,5 +10,5 @@ class OpenHiwayUrl(object):
     def open(self):
         self.driver.implicitly_wait(10)
         self.driver.maximize_window()
-        self.driver.get("http://qa.hiway.hashedin.com/")
+        self.driver.get(constants.hiway_url)
 

@@ -1,4 +1,5 @@
 from selenium import webdriver
+import constants
 
 
 class Manager(object):
@@ -6,9 +7,9 @@ class Manager(object):
         self.driver_name = driver_name
         self.driver = None
         if self.driver_name.lower() == 'chrome':
-            self.driver = webdriver.Chrome("/home/jitesh_dhoot/Selenium-track/mydriver/chromedriver")
+            self.driver = webdriver.Chrome(constants.path_chrome_driver)
         elif self.driver_name.lower() == 'firefox':
-            self.driver = webdriver.Firefox(executable_path="/home/jitesh_dhoot/Selenium-track/mydriver/geckodriver")
+            self.driver = webdriver.Firefox(executable_path=constants.path_firefox_driver)
 
     def get_driver(self):
         return self.driver
