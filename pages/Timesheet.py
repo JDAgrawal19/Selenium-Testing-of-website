@@ -1,9 +1,26 @@
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium .webdriver.common.keys import Keys
+import time
+
 class Timesheet(object):
     locator_username_in_heading = "h2[class='ng-binding']"
     locator_username_in_email = "username-position"
     locator_timesheet_date = "span[class='mobile-timesheet-date ng-binding']"
     locator_next_button_timesheet = "//button[@ng-click='next()']"
     locator_prev_button_timesheet = "//button[@ng-click='prev()']"
+    locator_popup = "div[class = 'md-toast-content']"
+    locator_delete_button = "//form//md-icon-button/md-icon/i"
+    locator_entries = "//form/div[@ng-repeat='entry in timeEntry track by $index']"
+    locator_add_project_code = '//input[@type="search"]'
+    locator_add_entry_type = '//md-select[@ng-model="newEntry.type"]'
+    locator_add_hour = "newEntry.hrs"
+    locator_add_minute = "newEntry.min"
+    locator_add_description = "newEntry.description"
+    locator_add_entry_button = "//form//button[@type='submit']"
+    locator_serial_no_of_first_entry_timesheet = '//form/div[1]/div[1]/div[1]/div[1]'
 
     def __init__(self, driver):
         self.driver = driver
@@ -22,4 +39,59 @@ class Timesheet(object):
 
     def click_on_prev_button(self):
         self.driver.find_element_by_xpath(self.locator_prev_button_timesheet).click()
+
+    def fill_project_code_in_an_entry(self, text='BUZZAUTO'):
+        project_code = self.driver.find_element_by_xpath(self.locator_add_project_code)
+        project_code.clear()
+        project_code.send_keys(text)
+
+    def fill_type_in_an_entry(self, type_of_entry='Dev'):
+        entry_type= self.driver.find_element_by_xpath(self.locator_add_entry_type)
+        entry_type.send_keys(type_of_entry)
+
+    def fill_hours_in_an_entry(self, hour ='05'):
+        hour_field = self.driver.find_element_by_name(self.locator_add_hour)
+        hour_field.clear()
+        hour_field.send_keys(hour)
+
+    def fill_minute_in_an_entry(self, minute = '20'):
+        minute_field = self.driver.find_element_by_name(self.locator_add_minute)
+        minute_field.clear()
+        minute_field.send_keys(minute)
+
+    def fill_description_in_an_entry(self, desc='Add a new Entry'):
+        desc_field = self.driver.find_element_by_name(self.locator_add_description)
+        desc_field.clear()
+        desc_field.send_keys(desc)
+
+    def click_add_button_in_entry(self):
+        WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, self.locator_add_entry_button))
+        )
+        self.driver.find_element_by_xpath(self.locator_add_entry_button).click()
+
+    def add_entry_to_timesheet_table(self,text='ARU-CCUI-DEL', type="Debug", hours='4', mins='20',desc='Add entry'):
+        self.fill_project_code_in_an_entry()
+        self.fill_type_in_an_entry()
+        self.fill_hours_in_an_entry()
+        self.fill_minute_in_an_entry()
+        self.fill_description_in_an_entry()
+        self.click_add_button_in_entry()
+
+    def delete_all_entries_from_timesheet(self):
+        while True:
+            try:
+                self.driver.find_element_by_xpath(self.locator_delete_button).click()
+                self.wait_till_popup_disappear()
+            except NoSuchElementException:
+                return
+
+    def wait_till_popup_disappear(self):
+        popup = self.driver.find_element_by_css_selector(self.locator_popup)
+        WebDriverWait(self.driver, 10).until(
+            EC.staleness_of(popup))
+
+    def get_serial_no_of_first_entry(self):
+        return str(self.driver.find_element_by_xpath(self.locator_serial_no_of_first_entry_timesheet).text)
+
 
