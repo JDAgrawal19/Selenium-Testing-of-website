@@ -22,6 +22,7 @@ class Timesheet(object):
     locator_add_entry_button = "//form//button[@type='submit']"
     locator_serial_no_of_first_entry_timesheet = '//form/div[1]/div[1]/div[1]/div[1]'
     locator_color_bar = '.md-bar.md-bar2'
+    locator_empty_timesheet_message = "//md-content//div[@ng-if='timeEntry.length == 0']/i"
 
     def __init__(self, driver):
         self.driver = driver
@@ -102,6 +103,10 @@ class Timesheet(object):
         popup = self.driver.find_element_by_css_selector(self.locator_popup)
         WebDriverWait(self.driver, 10).until(
             EC.staleness_of(popup))
+
+    def get_message_when_timesheet_is_empty(self):
+        return self.driver.find_element_by_xpath(self.locator_empty_timesheet_message).text
+
 
     def get_serial_no_of_first_entry(self):
         return str(self.driver.find_element_by_xpath(self.locator_serial_no_of_first_entry_timesheet).text)

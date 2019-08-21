@@ -21,3 +21,5 @@ pink_color = 'rgba(255, 64, 129, 1)'
 path_orange_to_blue_csv = "/home/jitesh_dhoot/Selenium-track/tests/orange_to_blue.csv"
 
 path_blue_to_pink_csv = "/home/jitesh_dhoot/Selenium-track/tests/blue_to_pink.csv"
+
+empty_timesheet_message = "No Time Entries. Use the form below to add one."

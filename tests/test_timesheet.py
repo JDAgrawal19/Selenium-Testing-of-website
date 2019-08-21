@@ -121,20 +121,12 @@ class TestTimeSheet(unittest.TestCase):
         timesheet.add_entry_to_timesheet_table(hours=1, minutes=0)
         assert pink_color == timesheet.get_bar_color_rgb_value()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @pytest.mark.usefixtures("setup")
+    def test_empty_timesheet_message(self):
+        timesheet = Timesheet(driver)
+        timesheet.delete_all_entries_from_timesheet()
+        message = timesheet.get_message_when_timesheet_is_empty()
+        assert message == empty_timesheet_message
 
     # @pytest.mark.usefixtures("setup")
     # def test_deletion_of_task(self):
