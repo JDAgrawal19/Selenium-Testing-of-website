@@ -45,9 +45,9 @@ class Timesheet(object):
         project_code.clear()
         project_code.send_keys(text)
 
-    def fill_type_in_an_entry(self, type_of_entry='Dev'):
-        entry_type= self.driver.find_element_by_xpath(self.locator_add_entry_type)
-        entry_type.send_keys(type_of_entry)
+    def fill_type_in_an_entry(self, entry_type='Dev'):
+        type_of_entry = self.driver.find_element_by_xpath(self.locator_add_entry_type)
+        type_of_entry.send_keys(entry_type)
 
     def fill_hours_in_an_entry(self, hour ='05'):
         hour_field = self.driver.find_element_by_name(self.locator_add_hour)
@@ -70,12 +70,12 @@ class Timesheet(object):
         )
         self.driver.find_element_by_xpath(self.locator_add_entry_button).click()
 
-    def add_entry_to_timesheet_table(self,text='ARU-CCUI-DEL', type="Debug", hours='4', mins='20',desc='Add entry'):
-        self.fill_project_code_in_an_entry()
-        self.fill_type_in_an_entry()
-        self.fill_hours_in_an_entry()
-        self.fill_minute_in_an_entry()
-        self.fill_description_in_an_entry()
+    def add_entry_to_timesheet_table(self, text='ARU-CCUI-DEL', entry_type="Debug", hours='4', minutes='20', desc='Add entry'):
+        self.fill_project_code_in_an_entry(text)
+        self.fill_type_in_an_entry(entry_type)
+        self.fill_hours_in_an_entry(hours)
+        self.fill_minute_in_an_entry(minutes)
+        self.fill_description_in_an_entry(desc)
         self.click_add_button_in_entry()
 
     def delete_all_entries_from_timesheet(self):

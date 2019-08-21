@@ -9,8 +9,10 @@ import Utils
 import unittest
 import constants
 from Utils import get_csv_data
+from ddt import ddt, data, unpack
 
 
+@ddt
 class TestTimeSheet(unittest.TestCase):
     @pytest.fixture()
     def setup(self, browser):
@@ -63,10 +65,12 @@ class TestTimeSheet(unittest.TestCase):
             assert prev_date in date_on_timesheet
 
     @pytest.mark.usefixtures("setup")
-    def test_task_added_in_timesheet_table(self):
+    @data(*get_csv_data(constants.path_test_added_entry_in_timesheet_csv))
+    @unpack
+    def test_task_added_in_timesheet_table(self, text, entry_type, hours, minutes, desc):
         timesheet = Timesheet(driver)
         timesheet.delete_all_entries_from_timesheet()
-        timesheet.add_entry_to_timesheet_table()
+        timesheet.add_entry_to_timesheet_table(text, entry_type, hours, minutes, desc)
         assert timesheet.get_serial_no_of_first_entry() == '1.'
 
 
