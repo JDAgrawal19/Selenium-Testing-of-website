@@ -29,27 +29,39 @@ class TestTimeSheet(unittest.TestCase):
         yield
         manager.close_browser()
 
-    @pytest.mark.usefixtures("setup")
-    def test_name_on_timesheet(self):
-        timesheet = Timesheet(driver)
-        user_name = timesheet.get_user_name()
-        user_name_from_email = timesheet.get_user_name_from_email()
-        assert user_name_from_email in user_name
+    # @pytest.mark.usefixtures("setup")
+    # def test_name_on_timesheet(self):
+    #     timesheet = Timesheet(driver)
+    #     user_name = timesheet.get_user_name()
+    #     user_name_from_email = timesheet.get_user_name_from_email()
+    #     assert user_name_from_email in user_name
+    #
+    # @pytest.mark.usefixtures("setup")
+    # def test_default_date_on_timesheet(self):
+    #     timesheet = Timesheet(driver)
+    #     date_on_timesheet = timesheet.get_date_showing_on_timesheet()
+    #     current_date = Utils.get_current_date_with_format_same_as_timesheet()
+    #     assert current_date in date_on_timesheet
+    #
+    # @pytest.mark.usefixtures("setup")
+    # def test_next_button_disability_for_current_date(self):
+    #     timesheet = Timesheet(driver)
+    #     date_on_timesheet = timesheet.get_date_showing_on_timesheet()
+    #     current_date = Utils.get_current_date_with_format_same_as_timesheet()
+    #     next_btn_enabled = timesheet.check_if_next_button_is_enabled()
+    #     if current_date in date_on_timesheet:
+    #         assert next_btn_enabled is False
 
     @pytest.mark.usefixtures("setup")
-    def test_default_date_on_timesheet(self):
+    def test_click_prev_button_check_prev_date_timesheet(self):
         timesheet = Timesheet(driver)
-        date_on_timesheet = timesheet.get_date_showing_on_timesheet()
-        current_date = Utils.get_current_date_with_format_same_as_timesheet()
-        assert current_date in date_on_timesheet
+        for i in range(1, 5):
+            timesheet.click_on_prev_button()
+            prev_date = Utils.get_date_before_n_number_of_days_with_format_of_timesheet(i)
+            date_on_timesheet = timesheet.get_date_showing_on_timesheet()
+            assert prev_date in date_on_timesheet
 
-    @pytest.mark.usefixtures("setup")
-    def test_next_button_disability_for_current_date(self):
-        timesheet = Timesheet(driver)
-        date_on_timesheet = timesheet.get_date_showing_on_timesheet()
-        current_date = Utils.get_current_date_with_format_same_as_timesheet()
-        next_btn_enabled = timesheet.check_if_next_button_is_enabled()
-        if current_date in date_on_timesheet:
-            assert next_btn_enabled is False
+
+
 
 
