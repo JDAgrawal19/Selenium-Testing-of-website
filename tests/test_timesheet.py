@@ -8,6 +8,7 @@ from pages.StartApp import StartApp
 import Utils
 import unittest
 import constants
+from constants import *
 from Utils import get_csv_data
 from ddt import ddt, data, unpack
 
@@ -97,6 +98,28 @@ class TestTimeSheet(unittest.TestCase):
         assert timesheet.check_if_add_is_clickable() is False
         timesheet.fill_description_in_an_entry(desc)
         assert timesheet.check_if_add_is_clickable() is True
+
+    @pytest.mark.usefixtures("setup")
+    @data(*get_csv_data(path_orange_to_blue_csv))
+    @unpack
+    def test_color_change_orange_to_blue_after_8hrs(self, text, entry_type, hours, minutes, desc):
+        timesheet = Timesheet(driver)
+        timesheet.delete_all_entries_from_timesheet()
+        timesheet.add_entry_to_timesheet_table(text, entry_type, hours, minutes, desc)
+        assert orange_color == timesheet.get_bar_color_rgb_value()
+        timesheet.add_entry_to_timesheet_table(hours=2, minutes=0)
+        assert blue_color == timesheet.get_bar_color_rgb_value()
+
+    @pytest.mark.usefixtures("setup")
+    @data(*get_csv_data(path_blue_to_pink_csv))
+    @unpack
+    def test_color_change_blue_to_pink_after_9hrs(self, text, entry_type, hours, minutes, desc):
+        timesheet = Timesheet(driver)
+        timesheet.delete_all_entries_from_timesheet()
+        timesheet.add_entry_to_timesheet_table(text, entry_type, hours, minutes, desc)
+        assert blue_color == timesheet.get_bar_color_rgb_value()
+        timesheet.add_entry_to_timesheet_table(hours=1, minutes=0)
+        assert pink_color == timesheet.get_bar_color_rgb_value()
 
 
 

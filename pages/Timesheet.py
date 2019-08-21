@@ -21,6 +21,7 @@ class Timesheet(object):
     locator_add_description = "newEntry.description"
     locator_add_entry_button = "//form//button[@type='submit']"
     locator_serial_no_of_first_entry_timesheet = '//form/div[1]/div[1]/div[1]/div[1]'
+    locator_color_bar = '.md-bar.md-bar2'
 
     def __init__(self, driver):
         self.driver = driver
@@ -84,6 +85,10 @@ class Timesheet(object):
         self.fill_description_in_an_entry(desc)
         self.click_add_button_in_entry()
         time.sleep(5)
+
+    def get_bar_color_rgb_value(self):
+        return str(self.driver.find_element_by_css_selector(self.locator_color_bar)
+                   .value_of_css_property('background-color'))
 
     def delete_all_entries_from_timesheet(self):
         while True:
