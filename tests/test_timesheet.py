@@ -42,3 +42,14 @@ class TestTimeSheet(unittest.TestCase):
         date_on_timesheet = timesheet.get_date_showing_on_timesheet()
         current_date = Utils.get_current_date_with_format_same_as_timesheet()
         assert current_date in date_on_timesheet
+
+    @pytest.mark.usefixtures("setup")
+    def test_next_button_disability_for_current_date(self):
+        timesheet = Timesheet(driver)
+        date_on_timesheet = timesheet.get_date_showing_on_timesheet()
+        current_date = Utils.get_current_date_with_format_same_as_timesheet()
+        next_btn_enabled = timesheet.check_if_next_button_is_enabled()
+        if current_date in date_on_timesheet:
+            assert next_btn_enabled is False
+
+
