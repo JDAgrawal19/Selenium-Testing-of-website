@@ -128,17 +128,28 @@ class TestTimeSheet(unittest.TestCase):
     #     message = timesheet.get_message_when_timesheet_is_empty()
     #     assert message == empty_timesheet_message
 
+    # @pytest.mark.usefixtures("setup")
+    # @data(*get_csv_data(path_total_working_hours_24))
+    # @unpack
+    # def test_total_working_hrs_restriction(self, text, entry_type, hours, minutes, desc):
+    #     timesheet = Timesheet(driver)
+    #     timesheet.delete_all_entries_from_timesheet()
+    #     timesheet.add_entry_to_timesheet_table(text, entry_type, hours, minutes, desc)
+    #     timesheet.add_entry_to_timesheet_table(text, entry_type, hours, minutes, desc)
+    #     timesheet.add_entry_to_timesheet_table(text, entry_type, hours, minutes, desc)
+    #     message = timesheet.get_message_from_popup()
+    #     assert total_hours_exceded_24_msg in message
+
     @pytest.mark.usefixtures("setup")
-    @data(*get_csv_data(path_total_working_hours_24))
+    @data(*get_csv_data(path_single_entry_res_10hrs))
     @unpack
-    def test_total_working_hrs_restriction(self, text, entry_type, hours, minutes, desc):
+    def test_single_entry_restriction_10hours(self, text, entry_type, hours, minutes, desc):
         timesheet = Timesheet(driver)
         timesheet.delete_all_entries_from_timesheet()
         timesheet.add_entry_to_timesheet_table(text, entry_type, hours, minutes, desc)
-        timesheet.add_entry_to_timesheet_table(text, entry_type, hours, minutes, desc)
-        timesheet.add_entry_to_timesheet_table(text, entry_type, hours, minutes, desc)
-        message = timesheet.get_message_from_popup()
-        assert total_hours_exceded_24_msg in message
+        message = timesheet.get_message_when_timesheet_is_empty()
+        assert message == empty_timesheet_message
+
 
     # @pytest.mark.usefixtures("setup")
     # def test_deletion_of_task(self):

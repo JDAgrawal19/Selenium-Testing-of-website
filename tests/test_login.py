@@ -29,3 +29,5 @@ class TestLogin(unittest.TestCase):
         login_page.enter_email_and_click_next()
         login_page.enter_password_and_click_next()
         assert username in startapp_page.get_username_from_startapp_page()
+
+

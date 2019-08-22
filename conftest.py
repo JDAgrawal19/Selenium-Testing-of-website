@@ -6,7 +6,7 @@ import pytest
 def pytest_addoption(parser):
     parser.addoption("-B", "--browser",
                      dest="browser",
-                     default="firefox",
+                     default="chrome",
                      help="Browser. Valid options are firefox or chrome")
 
 
