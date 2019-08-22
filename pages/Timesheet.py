@@ -4,8 +4,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium .webdriver.common.keys import Keys
 import time
+import custom_logger as cl
+import logging
+
 
 class Timesheet(object):
+
+    log = cl.custom_logger(logging.DEBUG)
+
     locator_username_in_heading = "h2[class='ng-binding']"
     locator_username_in_email = "username-position"
     locator_timesheet_date = "span[class='mobile-timesheet-date ng-binding']"
@@ -45,36 +51,43 @@ class Timesheet(object):
 
     def click_on_prev_button(self):
         self.driver.find_element_by_xpath(self.locator_prev_button_timesheet).click()
+        self.log.info("clicked on prev button on timesheet")
 
     def fill_project_code_in_an_entry(self, text='BUZZAUTO'):
         project_code = self.driver.find_element_by_xpath(self.locator_add_project_code)
         project_code.clear()
         project_code.send_keys(text)
+        self.log.info("send keys to project code")
 
     def fill_type_in_an_entry(self, entry_type='Dev'):
         type_of_entry = self.driver.find_element_by_xpath(self.locator_add_entry_type)
         type_of_entry.send_keys(entry_type)
+        self.log.info("send keys to type")
 
     def fill_hours_in_an_entry(self, hour ='05'):
         hour_field = self.driver.find_element_by_name(self.locator_add_hour)
         hour_field.clear()
         hour_field.send_keys(hour)
+        self.log.info("sent keys to hours")
 
     def fill_minute_in_an_entry(self, minute = '20'):
         minute_field = self.driver.find_element_by_name(self.locator_add_minute)
         minute_field.clear()
         minute_field.send_keys(minute)
+        self.log.info("send keys to minute")
 
     def fill_description_in_an_entry(self, desc='Add a new Entry'):
         desc_field = self.driver.find_element_by_name(self.locator_add_description)
         desc_field.clear()
         desc_field.send_keys(desc)
+        self.log.info("send keys to description")
 
     def click_add_button_in_entry(self):
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.locator_add_entry_button))
         )
         self.driver.find_element_by_xpath(self.locator_add_entry_button).click()
+        self.log.info("clicked on add entry button")
 
     def check_if_add_is_clickable(self):
         return self.driver.find_element_by_xpath(self.locator_add_entry_button).is_enabled()
@@ -86,6 +99,7 @@ class Timesheet(object):
         self.fill_minute_in_an_entry(minutes)
         self.fill_description_in_an_entry(desc)
         self.click_add_button_in_entry()
+        self.log.info("added entry in timesheet")
         time.sleep(1)
 
     def get_bar_color_rgb_value(self):
@@ -104,6 +118,7 @@ class Timesheet(object):
         popup = self.driver.find_element_by_css_selector(self.locator_popup)
         WebDriverWait(self.driver, 10).until(
             EC.staleness_of(popup))
+        self.log.info("popup disappeared")
 
     def get_message_when_timesheet_is_empty(self):
         return self.driver.find_element_by_xpath(self.locator_empty_timesheet_message).text

@@ -1,4 +1,11 @@
+import custom_logger as cl
+import logging
+
+
 class StartApp(object):
+
+    log = cl.custom_logger(logging.DEBUG)
+
     locator_username_text = "//div[@class='jumbotron']//h3"
     locator_startapp_button = "btn"
 
@@ -10,5 +17,6 @@ class StartApp(object):
 
     def go_to_dashboard(self):
         self.driver.find_element_by_class_name(self.locator_startapp_button).click()
+        self.log.info("clicked on start hiway app button")
 
 
