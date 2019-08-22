@@ -23,3 +23,7 @@ path_orange_to_blue_csv = "/home/jitesh_dhoot/Selenium-track/tests/orange_to_blu
 path_blue_to_pink_csv = "/home/jitesh_dhoot/Selenium-track/tests/blue_to_pink.csv"
 
 empty_timesheet_message = "No Time Entries. Use the form below to add one."
+
+path_total_working_hours_24 = "/home/jitesh_dhoot/Selenium-track/tests/total_working_hour_24.csv"
+
+total_hours_exceded_24_msg = "Total Hours cannot exceed 24."

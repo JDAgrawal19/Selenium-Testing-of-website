@@ -12,6 +12,7 @@ class Timesheet(object):
     locator_next_button_timesheet = "//button[@ng-click='next()']"
     locator_prev_button_timesheet = "//button[@ng-click='prev()']"
     locator_popup = "div[class = 'md-toast-content']"
+    locator_popup_exceed_24 = "//div[@class = 'md-toast-content']/span"
     locator_delete_button = "//form//md-icon-button/md-icon/i"
     locator_entries = "//form/div[@ng-repeat='entry in timeEntry track by $index']"
     locator_add_project_code = '//input[@type="search"]'
@@ -85,7 +86,7 @@ class Timesheet(object):
         self.fill_minute_in_an_entry(minutes)
         self.fill_description_in_an_entry(desc)
         self.click_add_button_in_entry()
-        time.sleep(5)
+        time.sleep(1)
 
     def get_bar_color_rgb_value(self):
         return str(self.driver.find_element_by_css_selector(self.locator_color_bar)
@@ -107,8 +108,12 @@ class Timesheet(object):
     def get_message_when_timesheet_is_empty(self):
         return self.driver.find_element_by_xpath(self.locator_empty_timesheet_message).text
 
-
     def get_serial_no_of_first_entry(self):
         return str(self.driver.find_element_by_xpath(self.locator_serial_no_of_first_entry_timesheet).text)
 
-
+    def get_message_from_popup(self):
+        # WebDriverWait(self.driver, 10).until(
+        #     EC.presence_of_element_located((By.CSS_SELECTOR, self.locator_popup))) #TimeOutException
+        WebDriverWait(self.driver, 10).until(
+             EC.visibility_of_element_located((By.XPATH, self.locator_popup_exceed_24))) #TimeOutException
+        return str(self.driver.find_element_by_xpath(self.locator_popup_exceed_24).text)
