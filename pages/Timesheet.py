@@ -130,5 +130,5 @@ class Timesheet(object):
         # WebDriverWait(self.driver, 10).until(
         #     EC.presence_of_element_located((By.CSS_SELECTOR, self.locator_popup))) #TimeOutException
         WebDriverWait(self.driver, 10).until(
-             EC.visibility_of_element_located((By.XPATH, self.locator_popup_exceed_24))) #TimeOutException
+             EC.visibility_of_element_located((By.XPATH, self.locator_popup_exceed_24)))
         return str(self.driver.find_element_by_xpath(self.locator_popup_exceed_24).text)
